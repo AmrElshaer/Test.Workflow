@@ -10,7 +10,7 @@ namespace Test.Workflow.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok("update version 2");
+            return Ok("command update version 2");
         }
     }
 }
