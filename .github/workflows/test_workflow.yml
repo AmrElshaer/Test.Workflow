@@ -19,11 +19,22 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and push Docker image
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+
+      - name: Build and test Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Test.Workflow/Dockerfile
+          target: build
+          load: true
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Test.Workflow/Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          target: final
+          tags: ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
