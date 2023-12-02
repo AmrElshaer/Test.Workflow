@@ -37,4 +37,4 @@ jobs:
           file: ./Test.Workflow/Dockerfile
           push: true
           target: final
-          tags: ${{ secrets.DOCKER_USERNAME }}/test.workflow:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/test.workflow.command:${{ github.ref_2 }}-latest
