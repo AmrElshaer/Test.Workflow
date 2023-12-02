@@ -13,6 +13,11 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v4
 
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
@@ -37,4 +42,4 @@ jobs:
           file: ./Test.Workflow/Dockerfile
           push: true
           target: final
-          tags: ${{ secrets.DOCKER_USERNAME }}/test.workflow.command:${{ github.ref_2 }}-latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/test.workflow.command:${{ steps.extract_branch.outputs.branch }}-latest
